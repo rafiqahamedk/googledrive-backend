@@ -67,8 +67,8 @@ A complete Google Drive clone application with React frontend, Node.js backend, 
 ### 1. Clone the Repository
 
 ```bash
-git clone <your-repo-url>
-cd google-drive-clone
+git clone https://github.com/rafiqahamedk/googledrive-backend.git
+cd googledrive-backend
 ```
 
 ### 2. Backend Setup
