@@ -21,9 +21,38 @@ console.log(`🌐 Frontend URL: ${process.env.FRONTEND_URL || 'http://localhost:
 
 // Security middleware
 app.use(helmet());
+
+// CORS configuration - Handle multiple frontend URLs and trailing slashes
+const allowedOrigins = [
+  'http://localhost:3000',
+  'http://localhost:3001', 
+  'https://googledrive-frontend-two.vercel.app',
+  'https://googledrive-frontend-rafiqahamedk.vercel.app',
+  process.env.FRONTEND_URL
+].filter(Boolean); // Remove any undefined values
+
 app.use(cors({
-  origin: process.env.FRONTEND_URL || 'http://localhost:3000',
-  credentials: true
+  origin: function (origin, callback) {
+    // Allow requests with no origin (like mobile apps or curl requests)
+    if (!origin) return callback(null, true);
+    
+    // Check if the origin matches any allowed origin (with or without trailing slash)
+    const isAllowed = allowedOrigins.some(allowedOrigin => {
+      const normalizedOrigin = origin.replace(/\/$/, ''); // Remove trailing slash
+      const normalizedAllowed = allowedOrigin.replace(/\/$/, ''); // Remove trailing slash
+      return normalizedOrigin === normalizedAllowed;
+    });
+    
+    if (isAllowed) {
+      callback(null, true);
+    } else {
+      console.log(`❌ CORS blocked origin: ${origin}`);
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  credentials: true,
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization', 'X-Requested-With']
 }));
 
 // Rate limiting - Updated for Railway
