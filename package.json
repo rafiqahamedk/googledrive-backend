@@ -4,9 +4,7 @@
   "description": "Google Drive Clone Backend",
   "main": "server.js",
   "scripts": {
-    "start": "node test-server.js",
-    "main-start": "node server.js",
-    "test-start": "node test-server.js",
+    "start": "node server.js",
     "dev": "nodemon server.js"
   },
   "dependencies": {

@@ -108,14 +108,3 @@ Thumbs.db
 
 # Local development files
 *.local
-
-# Frontend folder (should be in separate repository)
-../googledrive-frontend/
-googledrive-frontend/
-
-# Empty backend directory after restructure
-googledrive-backend/
-
-# Deployment guides for other services
-../VERCEL_DEPLOYMENT_FIX.md
-../DEPLOYMENT_FIXES_SUMMARY.md
