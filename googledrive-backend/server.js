@@ -19,13 +19,13 @@ app.use(cors({
   credentials: true
 }));
 
-// Rate limiting
+// Rate limiting - Updated for Railway
 const limiter = rateLimit({
   windowMs: 15 * 60 * 1000, // 15 minutes
   max: 100, // limit each IP to 100 requests per windowMs
   standardHeaders: true,
   legacyHeaders: false,
-  trustProxy: false // Disable trust proxy for local development
+  trustProxy: true // Enable trust proxy for Railway
 });
 app.use(limiter);
 
@@ -44,6 +44,16 @@ mongoose.connect(process.env.MONGODB_URI, {
   testS3Connection();
 })
 .catch(err => console.error('MongoDB connection error:', err));
+
+// Health check endpoint
+app.get('/api/health', (req, res) => {
+  res.status(200).json({ 
+    success: true, 
+    message: 'Server is healthy',
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+});
 
 // Routes
 app.use('/api/auth', authRoutes);
